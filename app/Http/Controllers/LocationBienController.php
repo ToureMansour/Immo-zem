@@ -13,7 +13,7 @@ class LocationBienController extends Controller
     {
         $locations = LocationBien::with(['bienImmobilier', 'locataire', 'proprietaire'])
             ->orderBy('created_at', 'desc')
-            ->paginate(3);
+            ->paginate(5);
 
         return view('locations_biens.index', compact('locations'));
     }

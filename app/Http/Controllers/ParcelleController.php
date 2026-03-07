@@ -9,7 +9,7 @@ class ParcelleController extends Controller
 {
     public function index()
     {
-        $parcelles = Parcelle::latest()->paginate(3); // 3 parcelles par page pour voir la pagination
+        $parcelles = Parcelle::latest()->paginate(5); 
         return view('parcelles.index', compact('parcelles'));
     }
 

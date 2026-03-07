@@ -11,7 +11,7 @@ class JournalisationController extends Controller
     {
         $logs = Log::with('user')
             ->orderBy('created_at', 'desc')
-            ->paginate(50);
+            ->paginate(6);
 
         return view('journalisation.index', compact('logs'));
     }

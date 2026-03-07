@@ -13,7 +13,7 @@ class LocationMotoController extends Controller
     {
         $locations = LocationMoto::with(['moto', 'conducteur'])
             ->orderBy('created_at', 'desc')
-            ->paginate(3);
+            ->paginate(5);
 
         return view('locations_motos.index', compact('locations'));
     }

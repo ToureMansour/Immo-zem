@@ -9,7 +9,7 @@ class BienImmobilierController extends Controller
 {
     public function index()
     {
-        $biens = BienImmobilier::latest()->paginate(5); // 3 biens par page pour voir la pagination
+        $biens = BienImmobilier::latest()->paginate(5); 
         return view('biens.index', compact('biens'));
     }
 

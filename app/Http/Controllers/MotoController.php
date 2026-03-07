@@ -9,7 +9,7 @@ class MotoController extends Controller
 {
     public function index()
     {
-        $motos = Moto::latest()->paginate(3); // 3 motos par page pour voir la pagination
+        $motos = Moto::latest()->paginate(5); 
         return view('motos.index', compact('motos'));
     }
 
