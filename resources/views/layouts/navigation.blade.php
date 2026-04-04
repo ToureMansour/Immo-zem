@@ -147,8 +147,9 @@
                          class="mt-2 space-y-1">
                         
                         <!-- Utilisateurs -->
-                        <a href="#" 
-                           class="flex items-center px-4 py-2 rounded-lg transition-colors text-sm text-green-100 hover:bg-green-700 hover:text-white">
+                        <a href="{{ route('users.index') }}" 
+                           class="flex items-center px-4 py-2 rounded-lg transition-colors text-sm
+                           {{ request()->routeIs('users.*') ? 'bg-white text-[#445f47] font-medium' : 'text-green-100 hover:bg-green-700 hover:text-white' }}">
                             <i class="fa-solid fa-users w-4 mr-2"></i>
                             Utilisateurs
                         </a>

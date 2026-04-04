@@ -15,6 +15,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    // Routes pour la gestion des utilisateurs
+    Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users.index');
+    Route::get('/users/create', 'App\Http\Controllers\UserController@create')->name('users.create');
+    Route::post('/users', 'App\Http\Controllers\UserController@store')->name('users.store');
+    Route::get('/users/{user}', 'App\Http\Controllers\UserController@show')->name('users.show');
+    Route::get('/users/{user}/edit', 'App\Http\Controllers\UserController@edit')->name('users.edit');
+    Route::put('/users/{user}', 'App\Http\Controllers\UserController@update')->name('users.update');
+    Route::delete('/users/{user}', 'App\Http\Controllers\UserController@destroy')->name('users.destroy');
+    
     // Routes pour la gestion immobilière - sans middleware de rôle
     Route::get('/proprietaires', 'App\Http\Controllers\ProprietaireController@index')->name('proprietaires.index');
     Route::get('/proprietaires/create', 'App\Http\Controllers\ProprietaireController@create')->name('proprietaires.create');

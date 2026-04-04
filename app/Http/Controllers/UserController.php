@@ -1,0 +1,144 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
+
+class UserController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $users = User::with('roles')->paginate(10);
+        return view('users.index', compact('users'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+            'telephone' => ['nullable', 'string', 'max:20'],
+            'adresse' => ['nullable', 'string', 'max:255'],
+            'cni_numero' => ['nullable', 'string', 'max:50'],
+            'cni_date_delivrance' => ['nullable', 'date'],
+            'cni_lieu_delivrance' => ['nullable', 'string', 'max:255'],
+            'statut' => ['required', 'string', 'in:actif,inactif'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', 'exists:roles,name'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'telephone' => $request->telephone,
+            'adresse' => $request->adresse,
+            'cni_numero' => $request->cni_numero,
+            'cni_date_delivrance' => $request->cni_date_delivrance,
+            'cni_lieu_delivrance' => $request->cni_lieu_delivrance,
+            'statut' => $request->statut,
+        ]);
+
+        if ($request->has('roles')) {
+            $user->syncRoles($request->roles);
+        }
+
+        return redirect()->route('users.index')
+            ->with('success', 'Utilisateur créé avec succès.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        $user->load('roles');
+        return view('users.show', compact('user'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $user)
+    {
+        $roles = Role::all();
+        $user->load('roles');
+        return view('users.edit', compact('user', 'roles'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'telephone' => ['nullable', 'string', 'max:20'],
+            'adresse' => ['nullable', 'string', 'max:255'],
+            'cni_numero' => ['nullable', 'string', 'max:50'],
+            'cni_date_delivrance' => ['nullable', 'date'],
+            'cni_lieu_delivrance' => ['nullable', 'string', 'max:255'],
+            'statut' => ['required', 'string', 'in:actif,inactif'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['string', 'exists:roles,name'],
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'adresse' => $request->adresse,
+            'cni_numero' => $request->cni_numero,
+            'cni_date_delivrance' => $request->cni_date_delivrance,
+            'cni_lieu_delivrance' => $request->cni_lieu_delivrance,
+            'statut' => $request->statut,
+        ]);
+
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => ['required', 'confirmed', Password::defaults()],
+            ]);
+            $user->update(['password' => Hash::make($request->password)]);
+        }
+
+        if ($request->has('roles')) {
+            $user->syncRoles($request->roles);
+        } else {
+            $user->syncRoles([]);
+        }
+
+        return redirect()->route('users.index')
+            ->with('success', 'Utilisateur mis à jour avec succès.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.index')
+            ->with('success', 'Utilisateur supprimé avec succès.');
+    }
+}
