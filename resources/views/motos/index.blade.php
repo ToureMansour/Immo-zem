@@ -142,10 +142,10 @@
                                         <i class="fa-solid fa-pen text-xs"></i>
                                     </a>
                                     <!-- Supprimer -->
-                                    <form action="{{ route('motos.destroy', $moto) }}" method="POST" class="inline">
+                                    <form action="{{ route('motos.destroy', $moto) }}" method="POST" class="inline" id="deleteForm{{ $moto->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="w-8 h-8 flex items-center justify-center rounded border border-red-500 text-red-500 hover:bg-red-50 transition" onclick="return confirm('Confirmer la suppression ?')" title="Supprimer">
+                                        <button type="button" class="w-8 h-8 flex items-center justify-center rounded border border-red-500 text-red-500 hover:bg-red-50 transition" onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer la moto {{ $moto->marque_moto }} {{ $moto->modele_moto }} ?', document.getElementById('deleteForm{{ $moto->id }}'))" title="Supprimer">
                                             <i class="fa-solid fa-trash text-xs"></i>
                                         </button>
                                     </form>

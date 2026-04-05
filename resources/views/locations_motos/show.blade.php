@@ -146,11 +146,11 @@
                         <i class="fas fa-edit mr-2"></i> Modifier
                     </a>
 
-                    <form action="{{ route('locations_motos.destroy', $location) }}" method="POST">
+                    <form action="{{ route('locations_motos.destroy', $location) }}" method="POST" id="deleteForm">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
-                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette location ?')">
+                        <button type="button" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                                onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer la location de moto n°{{ $location->id }} ?', document.getElementById('deleteForm'))">
                             <i class="fas fa-trash mr-2"></i> Supprimer
                         </button>
                     </form>

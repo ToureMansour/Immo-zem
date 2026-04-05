@@ -252,5 +252,8 @@
             </main>
         </div>
     </div>
+    
+    <!-- Modal de suppression -->
+    @include('partials.delete-modal')
 </body>
 </html>

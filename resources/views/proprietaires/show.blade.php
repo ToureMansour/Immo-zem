@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.navigation')
+
+@section('title', 'Détails du propriétaire')
 
 @section('content')
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -27,6 +29,17 @@
                         </svg>
                         Modifier
                     </a>
+                    <form action="{{ route('proprietaires.destroy', $proprietaire) }}" method="POST" id="deleteForm">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer le propriétaire {{ $proprietaire->nom_proprietaire }} ?', document.getElementById('deleteForm'))"
+                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            Supprimer
+                        </button>
+                    </form>
                 </div>
                 @endif
             </div>

@@ -188,11 +188,11 @@
                         </button>
                     @endif
 
-                    <form action="{{ route('parcelles.destroy', $parcelle) }}" method="POST" class="w-full">
+                    <form action="{{ route('parcelles.destroy', $parcelle) }}" method="POST" class="w-full" id="deleteForm">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors" 
-                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette parcelle ?')">
+                        <button type="button" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors" 
+                                onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer la parcelle {{ $parcelle->numero_parcelle }} ?', document.getElementById('deleteForm'))">
                             <i class="fas fa-trash mr-2"></i> Supprimer
                         </button>
                     </form>

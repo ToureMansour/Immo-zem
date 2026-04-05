@@ -122,11 +122,11 @@
                                title="Modifier">
                                 <i class="fa-solid fa-edit"></i>
                             </a>
-                            <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline" 
-                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                            <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline" id="deleteForm{{ $user->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" 
+                                <button type="button" 
+                                        onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer l\'utilisateur {{ $user->name }} ?', document.getElementById('deleteForm{{ $user->id }}'))"
                                         class="text-red-600 hover:text-red-800 transition-colors" 
                                         title="Supprimer">
                                     <i class="fa-solid fa-trash"></i>
