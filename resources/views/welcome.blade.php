@@ -45,6 +45,28 @@
         </div>
     </nav>
 
+    <!-- Messages Flash -->
+    @if (session('success'))
+        <div class="fixed top-24 right-6 z-50 bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg shadow-lg max-w-sm">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
+        
+        <!-- Script pour masquer automatiquement le message -->
+        <script>
+            setTimeout(function() {
+                const message = document.querySelector('.fixed.top-24');
+                if (message) {
+                    message.style.transition = 'opacity 0.5s ease-out';
+                    message.style.opacity = '0';
+                    setTimeout(() => message.remove(), 500);
+                }
+            }, 5000);
+        </script>
+    @endif
+
     <!-- HERO SECTION (Haut de page) -->
     <section class="pt-32 pb-20 lg:pt-40 lg:pb-28">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
