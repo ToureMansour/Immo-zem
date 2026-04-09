@@ -4,77 +4,90 @@
 
 @section('content')
 
-<div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Gestion des Utilisateurs</h1>
-    <p class="text-gray-600 mt-2">Gérez les comptes utilisateurs et leurs permissions</p>
-</div>
+<div class="w-full">
 
-<!-- Boutons d'action -->
-<div class="flex justify-between items-center mb-6">
-    <div class="flex items-center gap-4">
-        <!-- Barre de recherche -->
-        <div class="relative">
-            <input type="text" 
-                   placeholder="Rechercher un utilisateur..." 
-                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#445f47] focus:border-transparent w-64">
-            <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
+    <!-- En-tête de page -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 uppercase tracking-tight mb-4 sm:mb-0">UTILISATEURS</h2>
+        
+        <a href="{{ route('users.create') }}" 
+           class="bg-[#445f47] text-white px-4 py-2 hover:bg-[#3a5040] transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i>
+            Nouvel Utilisateur
+        </a>
+    </div>
+
+<!-- Zone de Filtres (Style Photo 2) -->
+<div class="bg-white p-5 mb-6 rounded shadow-sm border border-gray-200">
+    <form action="{{ route('users.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- Filtre Recherche -->
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Recherche</label>
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Nom, email, rôle..." 
+                   class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#445f47] focus:ring-1 focus:ring-[#445f47] text-sm text-gray-600">
         </div>
-    </div>
-    
-    <a href="{{ route('users.create') }}" 
-       class="bg-[#445f47] text-white px-4 py-2 rounded-lg hover:bg-[#3a5040] transition-colors flex items-center gap-2">
-        <i class="fa-solid fa-plus"></i>
-        Nouvel Utilisateur
-    </a>
+
+        <!-- Filtre Statut -->
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Statut</label>
+            <select name="statut" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#445f47] focus:ring-1 focus:ring-[#445f47] text-sm text-gray-600 bg-white">
+                <option value="">Tous les statuts</option>
+                <option value="actif" {{ request('statut') == 'actif' ? 'selected' : '' }}>Actif</option>
+                <option value="inactif" {{ request('statut') == 'inactif' ? 'selected' : '' }}>Inactif</option>
+            </select>
+        </div>
+        
+        <!-- Filtre Rôle -->
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Rôle</label>
+            <select name="role" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#445f47] focus:ring-1 focus:ring-[#445f47] text-sm text-gray-600 bg-white">
+                <option value="">Tous les rôles</option>
+                <option value="administrateur" {{ request('role') == 'administrateur' ? 'selected' : '' }}>Administrateur</option>
+                <option value="manager" {{ request('role') == 'manager' ? 'selected' : '' }}>Manager</option>
+                <option value="utilisateur" {{ request('role') == 'utilisateur' ? 'selected' : '' }}>Utilisateur</option>
+            </select>
+        </div>
+        
+        <!-- Bouton Filtrer -->
+        <div class="flex items-end">
+            <button type="submit" class="w-full px-4 py-2 bg-[#445f47] text-white rounded font-medium hover:bg-[#364b39] transition">
+                <i class="fas fa-search mr-2"></i> Filtrer
+            </button>
+        </div>
+        
+        <!-- Bouton Réinitialiser -->
+        <div class="flex items-end">
+            <a href="{{ route('users.index') }}" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded font-medium hover:bg-gray-200 transition text-center">
+                <i class="fas fa-undo mr-2"></i> Réinitialiser
+            </a>
+        </div>
+    </form>
 </div>
 
-<!-- Carte principale -->
-<div class="bg-white rounded-xl shadow-sm border border-gray-200">
-    
-    <!-- En-tête du tableau -->
-    <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-800">Liste des Utilisateurs</h2>
-        <p class="text-sm text-gray-600 mt-1">{{ $users->total() }} utilisateur(s) trouvé(s)</p>
-    </div>
-    
-    <!-- Tableau -->
-    <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gray-50 border-b border-gray-200">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Utilisateur
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Contact
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Rôles
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Statut
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date de création
-                    </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($users as $user)
-                <tr class="hover:bg-gray-50 transition-colors">
+<!-- TABLEAU STYLE "eSP-SNIF" -->
+    <div class="bg-white shadow-sm border border-gray-200 overflow-hidden rounded-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <!-- En-tête Vert Solide -->
+                <thead>
+                    <tr class="bg-[#445f47] text-white">
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none">Nom & Prénom</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none">Email</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none">Contact</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none">Rôles</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none">Statut</th>
+                        <th class="px-6 py-3 text-xs font-bold uppercase tracking-wider border-none text-center">Actions</th>
+                    </tr>
+                </thead>
+            <tbody class="text-sm text-gray-700">
+                    @forelse($users as $user)
+                        <!-- Lignes alternées (Zebra) : bg-white / bg-gray-50 -->
+                        <tr class="border-b border-gray-100 odd:bg-white even:bg-gray-50 hover:bg-green-50/50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <div class="h-10 w-10 rounded-full bg-[#445f47] text-white flex items-center justify-center font-bold mr-3">
-                                {{ substr($user->name, 0, 1) }}
-                            </div>
-                            <div>
-                                <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
-                                <div class="text-sm text-gray-500">{{ $user->email }}</div>
-                            </div>
-                        </div>
+                        <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ $user->email }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">
@@ -107,33 +120,30 @@
                             {{ $user->statut }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {{ $user->created_at->format('d/m/Y') }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div class="flex items-center justify-end gap-2">
-                            <a href="{{ route('users.show', $user) }}" 
-                               class="text-[#445f47] hover:text-[#3a5040] transition-colors" 
-                               title="Voir">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <a href="{{ route('users.edit', $user) }}" 
-                               class="text-blue-600 hover:text-blue-800 transition-colors" 
-                               title="Modifier">
-                                <i class="fa-solid fa-edit"></i>
-                            </a>
-                            <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline" id="deleteForm{{ $user->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" 
-                                        onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer l\'utilisateur {{ $user->name }} ?', document.getElementById('deleteForm{{ $user->id }}'))"
-                                        class="text-red-600 hover:text-red-800 transition-colors" 
-                                        title="Supprimer">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
+                    <!-- Actions (Boutons carrés outline) -->
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <!-- Voir -->
+                                    <a href="{{ route('users.show', $user) }}" class="w-8 h-8 flex items-center justify-center rounded border border-blue-500 text-blue-500 hover:bg-blue-50 transition" title="Voir les détails">
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </a>
+                                    <!-- Modifier -->
+                                    <a href="{{ route('users.edit', $user) }}" class="w-8 h-8 flex items-center justify-center rounded border border-yellow-500 text-yellow-500 hover:bg-yellow-50 transition" title="Modifier">
+                                        <i class="fa-solid fa-edit text-xs"></i>
+                                    </a>
+                                    <!-- Supprimer -->
+                                    <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline" id="deleteForm{{ $user->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" 
+                                                onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer l\'utilisateur {{ $user->name }} ?', document.getElementById('deleteForm{{ $user->id }}'))"
+                                                class="w-8 h-8 flex items-center justify-center rounded border border-red-500 text-red-500 hover:bg-red-50 transition" 
+                                                title="Supprimer">
+                                            <i class="fa-solid fa-trash text-xs"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                 </tr>
                 @empty
                 <tr>
@@ -152,15 +162,14 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table>
+            </table>
+        </div>
+
+        <!-- Pagination (Style Photo 2) -->
+        <div class="px-6 py-4 border-t border-gray-200 bg-white">
+            {{ $users->links() }}
+        </div>
     </div>
-    
-    <!-- Pagination -->
-    @if($users->hasPages())
-    <div class="px-6 py-4 border-t border-gray-200">
-        {{ $users->links() }}
-    </div>
-    @endif
 </div>
 
 @endsection
