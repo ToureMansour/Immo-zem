@@ -13,10 +13,6 @@
                 <p class="text-gray-600 mt-1">Détails complets de la location de bien immobilier</p>
             </div>
             <div class="flex space-x-3">
-                <a href="{{ route('locations_biens.edit', $location) }}" 
-                   class="flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors">
-                    <i class="fas fa-edit mr-2"></i> Modifier
-                </a>
                 <a href="{{ route('locations_biens.index') }}" 
                    class="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i> Retour

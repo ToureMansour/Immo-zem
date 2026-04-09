@@ -5,18 +5,11 @@
 @section('content')
 
 <div class="mb-6">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center">
         <div class="flex items-center gap-4">
             <a href="{{ route('users.index') }}" class="text-gray-600 hover:text-[#445f47] transition-colors">
                 <i class="fa-solid fa-arrow-left mr-2"></i>
                 Retour aux utilisateurs
-            </a>
-        </div>
-        <div class="flex gap-2">
-            <a href="{{ route('users.edit', $user) }}" 
-               class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
-                <i class="fa-solid fa-edit"></i>
-                Modifier
             </a>
         </div>
     </div>
@@ -77,25 +70,6 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            
-            <!-- Actions -->
-            <div class="flex flex-col gap-2">
-                <a href="{{ route('users.edit', $user) }}" 
-                   class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-edit"></i>
-                    Modifier
-                </a>
-                <form method="POST" action="{{ route('users.destroy', $user) }}" id="deleteForm">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" 
-                            onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer l\'utilisateur {{ $user->name }} ?', document.getElementById('deleteForm'))"
-                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-trash"></i>
-                        Supprimer
-                    </button>
-                </form>
             </div>
         </div>
     </div>

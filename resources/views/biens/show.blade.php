@@ -11,10 +11,6 @@
             <p class="text-sm text-gray-400">{{ $bien->titre }}</p>
         </div>
         <div class="flex gap-2">
-            <a href="{{ route('biens.edit', $bien) }}" 
-               class="flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg shadow-sm transition-colors">
-                <i class="fas fa-edit mr-2"></i> Modifier
-            </a>
             <a href="{{ route('biens.index') }}" 
                class="flex items-center px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
                 <i class="fas fa-arrow-left mr-2"></i> Retour
