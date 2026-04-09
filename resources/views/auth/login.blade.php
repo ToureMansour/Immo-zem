@@ -78,7 +78,9 @@
 
                 <!-- Liens bas -->
                 <div class="mt-6 text-center space-y-4">
-                    <a href="#" class="block text-sm text-[#445f47] hover:underline">Mot de passe oublié ?</a>
+                    <a href="{{ route('password.request') }}" class="block text-sm text-[#445f47] hover:underline">
+                        <i class="fas fa-key mr-2"></i> Mot de passe oublié ?
+                    </a>
                     
                     <a href="/" class="inline-flex items-center text-sm font-bold text-[#445f47] hover:underline">
                         <i class="fa-solid fa-house mr-2"></i> Retour a l'accueil

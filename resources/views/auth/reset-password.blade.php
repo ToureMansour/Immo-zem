@@ -1,39 +1,171 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réinitialiser le mot de passe - LLB Gestion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100">
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <div class="flex min-h-screen w-full">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <!-- Partie GAUCHE : Image -->
+        <div class="hidden lg:flex w-2/3 bg-cover bg-center relative" 
+             style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
+            
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-12 text-white">
+                <p class="text-lg font-semibold">Code vérifié avec succès</p>
+                <p class="text-xl font-bold">Créez votre nouveau mot de passe</p>
+                <p class="text-sm mt-2">Assurez-vous qu'il soit sécurisé et facile à retenir</p>
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <!-- Partie DROITE : Formulaire -->
+        <div class="w-full lg:w-1/3 bg-white flex flex-col justify-center items-center px-8 py-12 shadow-lg">
+            
+            <div class="w-full max-w-md">
+                <!-- Titre -->
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-[#445f47]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-key text-2xl text-[#445f47]"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Nouveau mot de passe</h1>
+                    <p class="text-gray-500 text-sm">Pour l'email : {{ $email }}</p>
+                </div>
+
+                <!-- Messages Flash -->
+                @if (session('success'))
+                    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <span class="text-green-700 text-sm">{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                            <span class="text-red-700 text-sm">{{ session('error') }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Formulaire -->
+                <form action="{{ route('password.update') }}" method="POST" class="space-y-5">
+                    @csrf
+                    
+                    <!-- Email (masqué) -->
+                    <input type="hidden" name="email" value="{{ $email }}" required>
+
+                    <!-- Nouveau mot de passe -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nouveau mot de passe</label>
+                        <div class="relative">
+                            <input type="password" name="password" id="password" 
+                                   class="w-full px-4 py-3 pl-11 pr-11 rounded-md bg-blue-50 border border-blue-100 focus:outline-none focus:ring-2 focus:ring-[#445f47] text-gray-700 placeholder-gray-400"
+                                   placeholder="........" required minlength="8">
+                            <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#445f47] focus:outline-none" onclick="togglePassword('password')">
+                                <i class="fas fa-eye" id="password-icon"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                        <p class="mt-1 text-xs text-gray-500">Minimum 8 caractères</p>
+                    </div>
+
+                    <!-- Confirmer le mot de passe -->
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
+                        <div class="relative">
+                            <input type="password" name="password_confirmation" id="password_confirmation" 
+                                   class="w-full px-4 py-3 pl-11 pr-11 rounded-md bg-blue-50 border border-blue-100 focus:outline-none focus:ring-2 focus:ring-[#445f47] text-gray-700 placeholder-gray-400"
+                                   placeholder="........" required minlength="8">
+                            <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#445f47] focus:outline-none" onclick="togglePassword('password_confirmation')">
+                                <i class="fas fa-eye" id="password_confirmation-icon"></i>
+                            </button>
+                        </div>
+                        @error('password_confirmation')
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <!-- Bouton Réinitialiser -->
+                    <button type="submit" 
+                            class="w-full bg-[#445f47] hover:bg-[#364b39] text-white font-bold py-3 px-4 rounded transition duration-200 flex items-center justify-center">
+                        <i class="fas fa-save mr-2"></i>
+                        Réinitialiser le mot de passe
+                    </button>
+                </form>
+
+                <!-- Liens bas -->
+                <div class="mt-8 text-center">
+                    <a href="{{ route('login') }}" class="inline-flex items-center text-sm font-bold text-[#445f47] hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Retour à la connexion
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-auto pt-8 text-center text-xs text-gray-400">
+                &copy; {{ date('Y') }} LLB Gestion. Tous droits réservés.
+            </div>
         </div>
+    </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+    <!-- Script pour validation en temps réel et toggle mots de passe -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const password = document.getElementById('password');
+            const passwordConfirmation = document.getElementById('password_confirmation');
+            
+            function checkPasswordMatch() {
+                if (password.value && passwordConfirmation.value) {
+                    if (password.value === passwordConfirmation.value) {
+                        passwordConfirmation.classList.remove('border-red-300');
+                        passwordConfirmation.classList.add('border-green-300');
+                    } else {
+                        passwordConfirmation.classList.remove('border-green-300');
+                        passwordConfirmation.classList.add('border-red-300');
+                    }
+                }
+            }
+            
+            password.addEventListener('input', checkPasswordMatch);
+            passwordConfirmation.addEventListener('input', checkPasswordMatch);
+        });
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        // Fonction pour basculer la visibilité du mot de passe
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const icon = document.getElementById(fieldId + '-icon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

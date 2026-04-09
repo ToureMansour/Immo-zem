@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot de passe oublié - LLB Gestion</title>
+    <title>Vérifier le code - LLB Gestion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .code-input {
+            letter-spacing: 0.5em;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -17,12 +22,12 @@
 
         <!-- Partie GAUCHE : Image -->
         <div class="hidden lg:flex w-2/3 bg-cover bg-center relative" 
-             style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
+             style="background-image: url('https://images.unsplash.com/photo-1618424254938-9b6a5a7ba6d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
             
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-12 text-white">
-                <p class="text-lg font-semibold">Besoin d'aide ?</p>
-                <p class="text-xl font-bold">Contactez le support technique</p>
-                <p class="text-sm mt-2">(+225) 07 00 00 00 00</p>
+                <p class="text-lg font-semibold">Vérification en cours</p>
+                <p class="text-xl font-bold">Entrez votre code à 5 chiffres</p>
+                <p class="text-sm mt-2">Le code expirera dans 1 heure</p>
             </div>
         </div>
 
@@ -33,10 +38,10 @@
                 <!-- Titre -->
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-[#445f47]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-lock text-2xl text-[#445f47]"></i>
+                        <i class="fas fa-shield-halved text-2xl text-[#445f47]"></i>
                     </div>
-                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Mot de passe oublié</h1>
-                    <p class="text-gray-500 text-sm">Entrez votre email pour recevoir un code à 5 chiffres</p>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Vérifier le code</h1>
+                    <p class="text-gray-500 text-sm">Entrez le code à 5 chiffres reçu par email</p>
                 </div>
 
                 <!-- Messages Flash -->
@@ -58,20 +63,28 @@
                     </div>
                 @endif
 
+                <!-- Email masqué -->
+                @if (session('email'))
+                    <input type="hidden" name="email" value="{{ session('email') }}" required>
+                    <div class="mb-6 p-3 bg-gray-50 rounded-lg text-center">
+                        <p class="text-sm text-gray-600">Code envoyé à :</p>
+                        <p class="font-semibold text-gray-800">{{ session('email') }}</p>
+                    </div>
+                @endif
+
                 <!-- Formulaire -->
-                <form action="{{ route('password.email') }}" method="POST" class="space-y-5">
+                <form action="{{ route('password.verify') }}" method="POST" class="space-y-6">
                     @csrf
                     
-                    <!-- Email -->
+                    <!-- Code à 5 chiffres -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
+                        <label for="code" class="block text-sm font-medium text-gray-700 mb-1">Code de vérification</label>
                         <div class="relative">
-                            <input type="email" name="email" id="email" 
-                                   class="w-full px-4 py-3 pl-11 rounded-md bg-blue-50 border border-blue-100 focus:outline-none focus:ring-2 focus:ring-[#445f47] text-gray-700 placeholder-gray-400"
-                                   placeholder="exemple@email.com" required>
-                            <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="code" id="code" maxlength="5" pattern="[0-9]{5}" 
+                                   class="w-full px-4 py-4 text-center code-input rounded-md bg-blue-50 border border-blue-100 focus:outline-none focus:ring-2 focus:ring-[#445f47] text-gray-700 placeholder-gray-400"
+                                   placeholder="00000" required>
                         </div>
-                        @error('email')
+                        @error('code')
                             <p class="mt-2 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-triangle mr-1"></i>
                                 {{ $message }}
@@ -79,16 +92,19 @@
                         @enderror
                     </div>
 
-                    <!-- Bouton Envoyer -->
+                    <!-- Bouton Vérifier -->
                     <button type="submit" 
                             class="w-full bg-[#445f47] hover:bg-[#364b39] text-white font-bold py-3 px-4 rounded transition duration-200 flex items-center justify-center">
-                        <i class="fas fa-paper-plane mr-2"></i>
-                        Envoyer le code de réinitialisation
+                        <i class="fas fa-check mr-2"></i>
+                        Vérifier le code
                     </button>
                 </form>
 
                 <!-- Liens bas -->
                 <div class="mt-8 text-center space-y-4">
+                    <a href="{{ route('password.request') }}" class="block text-sm text-[#445f47] hover:underline mb-2">
+                        <i class="fa-solid fa-redo mr-2"></i> Renvoyer un nouveau code
+                    </a>
                     <a href="{{ route('login') }}" class="inline-flex items-center text-sm font-bold text-[#445f47] hover:underline">
                         <i class="fa-solid fa-arrow-left mr-2"></i> Retour à la connexion
                     </a>
@@ -102,5 +118,23 @@
         </div>
     </div>
 
+    <!-- Script pour auto-focus et formatage du code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeInput = document.getElementById('code');
+            
+            // Auto-focus sur le champ code
+            codeInput.focus();
+            
+            // Formater automatiquement le code (5 chiffres)
+            codeInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, ''); // Supprimer les non-chiffres
+                if (value.length > 5) {
+                    value = value.slice(0, 5);
+                }
+                e.target.value = value;
+            });
+        });
+    </script>
 </body>
 </html>
