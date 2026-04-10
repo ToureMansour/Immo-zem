@@ -17,12 +17,12 @@
 
         <!-- Partie GAUCHE : Image -->
         <div class="hidden lg:flex w-2/3 bg-cover bg-center relative" 
-             style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
+             style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d40e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
             
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-12 text-white">
-                <p class="text-lg font-semibold">Besoin d'aide ?</p>
-                <p class="text-xl font-bold">Contactez le support technique</p>
-                <p class="text-sm mt-2">(+225) 07 00 00 00 00</p>
+                <p class="text-lg font-semibold">Mot de passe oublié ?</p>
+                <p class="text-xl font-bold">LLB Gestion</p>
+                <p class="text-sm mt-2">Application de Gestion Immobilière</p>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
                 <!-- Titre -->
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-[#445f47]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-lock text-2xl text-[#445f47]"></i>
+                        <i class="fas fa-key text-2xl text-[#445f47]"></i>
                     </div>
                     <h1 class="text-2xl font-bold text-gray-800 mb-2">Mot de passe oublié</h1>
                     <p class="text-gray-500 text-sm">Entrez votre email pour recevoir un code à 5 chiffres</p>
