@@ -86,7 +86,14 @@
 
                         <div>
                             <label for="cni_date_delivrance" class="block text-sm font-medium text-gray-700">Date de délivrance *</label>
-                            <input type="date" name="cni_date_delivrance" id="cni_date_delivrance" value="{{ old('cni_date_delivrance', $proprietaire->cni_date_delivrance->format('Y-m-d')) }}" required
+                            <input type="date" name="cni_date_delivrance" id="cni_date_delivrance" 
+                                   value="{{ old('cni_date_delivrance', 
+                                       $proprietaire->cni_date_delivrance ? 
+                                           (is_string($proprietaire->cni_date_delivrance) ? 
+                                               \Carbon\Carbon::parse($proprietaire->cni_date_delivrance)->format('Y-m-d') : 
+                                               $proprietaire->cni_date_delivrance->format('Y-m-d')) : 
+                                           '') }}" 
+                                   required
                                    class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
                         </div>
 

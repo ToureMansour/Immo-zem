@@ -99,7 +99,17 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Date de délivrance</p>
-                            <p class="text-sm text-gray-900">{{ $proprietaire->cni_date_delivrance->format('d/m/Y') }}</p>
+                            <p class="text-sm text-gray-900">
+                                @if($proprietaire->cni_date_delivrance)
+                                    @if(is_string($proprietaire->cni_date_delivrance))
+                                        {{ \Carbon\Carbon::parse($proprietaire->cni_date_delivrance)->format('d/m/Y') }}
+                                    @else
+                                        {{ $proprietaire->cni_date_delivrance->format('d/m/Y') }}
+                                    @endif
+                                @else
+                                    Non renseignée
+                                @endif
+                            </p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Lieu de délivrance</p>

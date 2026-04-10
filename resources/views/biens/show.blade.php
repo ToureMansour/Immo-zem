@@ -129,32 +129,6 @@
 
         <!-- Sidebar -->
         <div class="space-y-6">
-            <!-- Carte d'actions -->
-            <div class="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] p-6">
-                <h4 class="font-semibold text-gray-700 mb-4">Actions</h4>
-                <div class="space-y-3">
-                    <a href="{{ route('biens.edit', $bien) }}" 
-                       class="w-full flex items-center justify-center px-4 py-2 bg-[#445f47] hover:bg-[#364b39] text-white rounded-lg transition-colors">
-                        <i class="fas fa-edit mr-2"></i> Modifier
-                    </a>
-                    
-                    @if($bien->statut == 'disponible')
-                        <button class="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
-                            <i class="fas fa-handshake mr-2"></i> Louer ce bien
-                        </button>
-                    @endif
-
-                    <form action="{{ route('biens.destroy', $bien) }}" method="POST" class="w-full" id="deleteForm">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors" 
-                                onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer le bien immobilier {{ $bien->designation_bien }} ?', document.getElementById('deleteForm'))">
-                            <i class="fas fa-trash mr-2"></i> Supprimer
-                        </button>
-                    </form>
-                </div>
-            </div>
-
             <!-- Carte d'informations système -->
             <div class="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] p-6">
                 <h4 class="font-semibold text-gray-700 mb-4">Informations</h4>
