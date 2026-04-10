@@ -21,10 +21,15 @@
     <div class="flex min-h-screen w-full">
 
         <!-- Partie GAUCHE : Image -->
-        <div class="hidden lg:flex w-2/3 bg-cover bg-center relative" 
-             style="background-image: url('https://images.unsplash.com/photo-1618424254938-9b6a5a7ba6d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
-            
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-12 text-white">
+        <div class="hidden lg:flex w-2/3 bg-gradient-to-br from-[#445f47] to-[#364b39] relative">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center text-white p-8">
+                    <i class="fas fa-shield-halved text-6xl mb-6 opacity-80"></i>
+                    <h2 class="text-3xl font-bold mb-4">LLB Gestion</h2>
+                    <p class="text-lg opacity-90">Vérification de sécurité</p>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-12 text-white">
                 <p class="text-lg font-semibold">Vérification en cours</p>
                 <p class="text-xl font-bold">Entrez votre code à 5 chiffres</p>
                 <p class="text-sm mt-2">Le code expirera dans 1 heure</p>
