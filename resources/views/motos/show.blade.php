@@ -147,44 +147,6 @@
 
         <!-- Sidebar -->
         <div class="space-y-6">
-            <!-- Carte d'actions -->
-            <div class="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] p-6">
-                <h4 class="font-semibold text-gray-700 mb-4">Actions</h4>
-                <div class="space-y-3">
-                    <a href="{{ route('motos.edit', $moto) }}" 
-                       class="w-full flex items-center justify-center px-4 py-2 bg-[#445f47] hover:bg-[#364b39] text-white rounded-lg transition-colors">
-                        <i class="fas fa-edit mr-2"></i> Modifier
-                    </a>
-                    
-                    @if($moto->estDisponible())
-                        <button class="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
-                            <i class="fas fa-handshake mr-2"></i> Louer cette moto
-                        </button>
-                    @endif
-
-                    @if($moto->estLouee())
-                        <button class="w-full flex items-center justify-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors">
-                            <i class="fas fa-stop-circle mr-2"></i> Terminer la location
-                        </button>
-                    @endif
-
-                    @if($moto->estEnReparation())
-                        <button class="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
-                            <i class="fas fa-check-circle mr-2"></i> Terminer réparation
-                        </button>
-                    @endif
-
-                    <form action="{{ route('motos.destroy', $moto) }}" method="POST" class="w-full" id="deleteForm">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="w-full flex items-center justify-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors" 
-                                onclick="showDeleteModal('Êtes-vous sûr de vouloir supprimer la moto {{ $moto->marque_moto }} {{ $moto->modele_moto }} ?', document.getElementById('deleteForm'))">
-                            <i class="fas fa-trash mr-2"></i> Supprimer
-                        </button>
-                    </form>
-                </div>
-            </div>
-
             <!-- Carte d'informations système -->
             <div class="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] p-6">
                 <h4 class="font-semibold text-gray-700 mb-4">Informations</h4>

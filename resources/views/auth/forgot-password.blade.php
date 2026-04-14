@@ -147,9 +147,20 @@
             const form = document.querySelector('form[action*="password.email"]');
             if (form) {
                 form.addEventListener('submit', function(e) {
-                    showLoading('Envoi du code...', 'Vérification de votre email');
+                    const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+                    if (submitButton) {
+                        let message = 'Traitement en cours...';
+                        let subtext = 'Veuillez patienter';
+                        
+                        if (form.action.includes('password')) {
+                            message = 'Envoi en cours...';
+                            subtext = 'Envoi du code de vérification';
+                        }
+                        
+                        showLoading(message, subtext);
+                    }
                 });
-            }
+            });
         });
     </script>
 
