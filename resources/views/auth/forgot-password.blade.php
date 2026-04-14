@@ -16,7 +16,6 @@
     <div class="flex min-h-screen w-full">
 
         <!-- Partie GAUCHE : Image -->
-
         <div class="hidden lg:flex w-2/3 bg-cover bg-center relative" 
              style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d40e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');">
             
@@ -24,19 +23,6 @@
                 <p class="text-lg font-semibold">Mot de passe oublié ?</p>
                 <p class="text-xl font-bold">LLB Gestion</p>
                 <p class="text-sm mt-2">Application de Gestion Immobilière</p>
-
-        <div class="hidden lg:flex w-2/3 bg-gradient-to-br from-[#445f47] to-[#364b39] relative">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-center text-white p-8">
-                    <i class="fas fa-key text-6xl mb-6 opacity-80"></i>
-                    <h2 class="text-3xl font-bold mb-4">LLB Gestion</h2>
-                    <p class="text-lg opacity-90">Récupérez facilement l'accès à votre compte</p>
-                </div>
-            </div>
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-12 text-white">
-                <p class="text-lg font-semibold">Besoin d'aide ?</p>
-                <p class="text-xl font-bold">Contactez le support technique</p>
-                <p class="text-sm mt-2">(+225) 07 00 00 00 00</p>
             </div>
         </div>
 
@@ -115,6 +101,57 @@
             </div>
         </div>
     </div>
+
+    <!-- Animation de chargement -->
+    <div id="loadingOverlay" class="fixed inset-0 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-sm">
+            <div class="bg-white rounded-xl p-8 shadow-2xl flex flex-col items-center">
+                <!-- Animation de chargement -->
+                <div class="relative w-16 h-16 mb-4">
+                    <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-[#445f47] rounded-full border-t-transparent animate-spin"></div>
+                    <div class="absolute inset-2 flex items-center justify-center">
+                        <i class="fas fa-key text-[#445f47] text-xl"></i>
+                    </div>
+                </div>
+                
+                <!-- Texte de chargement -->
+                <p class="text-gray-700 font-medium">Envoi en cours...</p>
+                <p class="text-gray-500 text-sm mt-1">Veuillez patienter</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script pour le chargement -->
+    <script>
+        // Fonctions de chargement
+        function showLoading(message = 'Chargement...', subtext = 'Veuillez patienter') {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = overlay.querySelector('p.text-gray-700');
+            const subtextEl = overlay.querySelector('p.text-gray-500');
+            
+            messageEl.textContent = message;
+            subtextEl.textContent = subtext;
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Intercepter la soumission du formulaire
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[action*="password.email"]');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    showLoading('Envoi du code...', 'Vérification de votre email');
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

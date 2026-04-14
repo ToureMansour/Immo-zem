@@ -167,5 +167,37 @@
             }
         }
     </script>
+
+    <!-- Script pour le chargement -->
+    <script>
+        // Fonctions de chargement
+        function showLoading(message = 'Chargement...', subtext = 'Veuillez patienter') {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = overlay.querySelector('p.text-gray-700');
+            const subtextEl = overlay.querySelector('p.text-gray-500');
+            
+            messageEl.textContent = message;
+            subtextEl.textContent = subtext;
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Intercepter la soumission du formulaire
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[action*="password.update"]');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    showLoading('Mise à jour...', 'Réinitialisation de votre mot de passe');
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>

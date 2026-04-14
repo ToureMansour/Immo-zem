@@ -223,7 +223,7 @@
                             <hr class="my-2 border-gray-200">
                             
                             <!-- Déconnexion -->
-                            <form method="POST" action="{{ route('logout') }}" class="block">
+                            <form method="POST" action="{{ route('logout') }}" class="block" onsubmit="showLoading('Déconnexion...', 'Fermeture de votre session')">
                                 @csrf
                                 <button type="submit" class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
                                     <i class="fa-solid fa-right-from-bracket mr-3"></i>
@@ -255,5 +255,11 @@
     
     <!-- Modal de suppression -->
     @include('partials.delete-modal')
+    
+    <!-- Modal pour les formulaires -->
+    @include('partials.form-modal')
+    
+    <!-- Animation de chargement -->
+    @include('partials.loading')
 </body>
 </html>

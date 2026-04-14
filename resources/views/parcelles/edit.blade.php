@@ -10,7 +10,7 @@
             <h2 class="text-lg font-medium text-gray-500">Modification de la parcelle</h2>
             <p class="text-sm text-gray-400">Mettez à jour les informations de la parcelle.</p>
         </div>
-        <a href="{{ route('parcelles.show', $parcelle) }}" 
+        <a href="{{ route('parcelles.index') }}" 
            class="flex items-center px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
             <i class="fas fa-arrow-left mr-2"></i> Retour
         </a>

@@ -6,7 +6,7 @@
         <!-- Header -->
         <div class="mb-6">
             <div class="flex items-center">
-                <a href="{{ route('proprietaires.show', $proprietaire) }}" class="text-green-600 hover:text-green-800 mr-4">
+                <a href="{{ route('proprietaires.index') }}" class="text-green-600 hover:text-green-800 mr-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
